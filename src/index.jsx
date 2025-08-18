@@ -22,6 +22,8 @@ import './index.scss';
 import Head from './head/Head';
 import NotificationCourses from './notification-preferences/NotificationCourses';
 import NotificationPreferences from './notification-preferences/NotificationPreferences';
+import 'titaned-lib/dist/index.css';
+import Layout from './Layout';
 
 subscribe(APP_READY, () => {
   ReactDOM.render(
@@ -29,13 +31,7 @@ subscribe(APP_READY, () => {
       <Head />
       <Routes>
         <Route element={(
-          <div className="d-flex flex-column" style={{ minHeight: '100vh' }}>
-            <Header />
-            <main className="flex-grow-1" id="main">
-              <Outlet />
-            </main>
-            <FooterSlot />
-          </div>
+          <Layout />
         )}
         >
           <Route path="/notifications/:courseId" element={<NotificationPreferences />} />

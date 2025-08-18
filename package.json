@@ -82,7 +82,8 @@
     "redux-thunk": "2.4.2",
     "regenerator-runtime": "0.14.1",
     "reselect": "^5.1.1",
-    "universal-cookie": "7.2.1"
+    "universal-cookie": "7.2.1",
+    "titaned-lib": "^0.0.106"
   },
   "devDependencies": {
     "@edx/browserslist-config": "1.2.0",
