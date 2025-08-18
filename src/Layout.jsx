@@ -43,7 +43,7 @@ const Layout = () => {
   const [sidebarItems, setSidebarItems] = useState([
     {
       label: 'Home',
-      path: '/',
+      path: '/home',
       icon: <Home />,
     },
   ]);
@@ -68,7 +68,7 @@ const Layout = () => {
             {
               // label: intl.formatMessage(messages.sidebarDashboardTitle),
               label: 'Home',
-              path: '/',
+              path: '/home',
               icon: <Home />,
               isVisible: true, // Always visible
             },
@@ -160,7 +160,7 @@ const Layout = () => {
           {
             // label: intl.formatMessage(messages.sidebarDashboardTitle),
             label: 'Home',
-            path: '/',
+            path: '/home',
             icon: <Home />,
             isVisible: true,
           },
