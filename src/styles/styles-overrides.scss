@@ -1,0 +1,161 @@
+// Mixins
+@mixin card-style1 {
+    border-radius: 1rem;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-surface);
+}
+
+@mixin card-style2 {
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-surface);
+}
+
+@mixin card-style3 {
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-surface);
+}
+
+@mixin sub-header-title-style1 {
+    font-size: 20px !important;
+    font-weight: 600 !important;
+    line-height: 1.2 !important;
+    letter-spacing: normal !important;
+}
+
+@mixin section-title-style1 {
+    font-size: 18px !important;
+    font-weight: 500 !important;
+    line-height: 1.2 !important;
+    letter-spacing: normal !important;
+}
+
+@mixin section-title-style2 {
+    font-size: 16px !important;
+    font-weight: 500 !important;
+    line-height: 1.2 !important;
+    letter-spacing: normal !important;
+}
+
+@mixin section-title-style3 {
+    font-size: 16px !important;
+    font-weight: 400 !important;
+    line-height: 1.2 !important;
+    letter-spacing: normal !important;
+}
+
+.account-section {
+    @include card-style1;
+    padding: 1rem;
+
+    .section-heading {
+        @include section-title-style1;
+    }
+
+    .pgn-transition-replace-group {
+        @include card-style2;
+        padding-top: 1rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    // .form-group {
+    //     @include card-style3;
+    //     padding-top: 1rem;
+    //     padding-left: 1rem;
+    //     padding-right: 1rem;
+    //     min-height: 6rem;
+    // }
+
+    // .editable-field-form-group {
+    //     @include card-style3;
+    //     padding-top: 1rem;
+    //     padding-left: 1rem;
+    //     padding-right: 1rem;
+    //     margin-bottom: 1rem;
+    // }
+
+    .form-group {
+        margin-bottom: 1rem !important;
+        h6 {
+            @include section-title-style3;
+            color: var(--text-muted) !important;
+
+        }
+
+        .form-group-value {
+            font-weight: 500 !important;
+        }
+
+        .p {
+            font-weight: 500 !important;
+        }
+    }
+
+    .reset-password-form-group {
+        @include card-style2;
+        padding-top: 1rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .reset-password-fields {
+
+        display: flex;
+        justify-content: space-between;
+
+        h6 {
+            padding-top: 0.5rem;
+            font-weight: 500 !important;
+            color: var(--text-primary) !important;
+        }
+    }
+
+    .delete-account-section {
+        @include card-style2;
+        padding: 1rem;
+    }
+}
+
+.linked-accounts-section {
+    .form-group {
+        @include card-style2;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+}
+
+.page__account-settings {
+    padding-top: 1rem !important;
+    padding-left: 1rem !important;
+
+    .jump-nav {
+        @include card-style1;
+        padding: 1rem;
+        // height: 100%;
+    }
+
+    .account-settings-page-heading {
+        font-size: 24px !important;
+        font-weight: 600 !important;
+        line-height: 1.2 !important;
+        letter-spacing: normal !important;
+        margin-bottom: 1rem !important;
+        margin-left: 0.1rem !important;
+    }
+}
+
+
+.customHr {
+    border: 'none';
+    border-top: '1px solid #e5e6e6', ;
+    margin: '0 0 0 0';
+    margin-left: -1rem;
+    margin-right: -1rem;
+}

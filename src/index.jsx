@@ -8,10 +8,10 @@ import {
 } from '@edx/frontend-platform';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Route, Routes, Outlet } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 
-import Header from '@edx/frontend-component-header';
-import FooterSlot from '@openedx/frontend-slot-footer';
+// import Header from '@edx/frontend-component-header';
+// import FooterSlot from '@openedx/frontend-slot-footer';
 
 import configureStore from './data/configureStore';
 import AccountSettingsPage, { NotFoundPage } from './account-settings';
@@ -24,6 +24,7 @@ import NotificationCourses from './notification-preferences/NotificationCourses'
 import NotificationPreferences from './notification-preferences/NotificationPreferences';
 import 'titaned-lib/dist/index.css';
 import Layout from './Layout';
+import './styles/styles-overrides.scss';
 
 subscribe(APP_READY, () => {
   ReactDOM.render(

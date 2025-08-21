@@ -8,6 +8,7 @@ import {
 import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import { PluginSlot } from '@openedx/frontend-plugin-framework';
 import SwitchContent from './SwitchContent';
 import messages from './AccountSettingsPage.messages';
 
@@ -182,16 +183,32 @@ const EditableSelectField = (props) => {
         ),
         default: (
           <div className="form-group">
-            <div className="d-flex align-items-start">
-              <h6 aria-level="3">{label}</h6>
-              {isEditable ? (
-                <Button variant="link" onClick={handleEdit} className="ml-3">
-                  <FontAwesomeIcon className="mr-1" icon={faPencilAlt} />{intl.formatMessage(messages['account.settings.editable.field.action.edit'])}
-                </Button>
-              ) : null}
-            </div>
-            <p data-hj-suppress className={isGrayedOut ? 'grayed-out' : null}>{renderValue(value)}</p>
-            <p className="small text-muted mt-n2">{renderConfirmationMessage() || helpText}</p>
+            <PluginSlot
+              id="editable_select_field_display"
+              pluginProps={{
+                label,
+                isEditable,
+                handleEdit,
+                intl,
+                messages,
+                value,
+                isGrayedOut,
+                renderValue,
+                renderConfirmationMessage,
+                helpText,
+              }}
+            >
+              <div className="d-flex align-items-start">
+                <h6 aria-level="3">{label}</h6>
+                {isEditable ? (
+                  <Button variant="link" onClick={handleEdit} className="ml-3">
+                    <FontAwesomeIcon className="mr-1" icon={faPencilAlt} />{intl.formatMessage(messages['account.settings.editable.field.action.edit'])}
+                  </Button>
+                ) : null}
+              </div>
+              <p data-hj-suppress className={isGrayedOut ? 'grayed-out' : null}>{renderValue(value)}</p>
+              <p className="small text-muted mt-n2">{renderConfirmationMessage() || helpText}</p>
+            </PluginSlot>
           </div>
         ),
       }}
