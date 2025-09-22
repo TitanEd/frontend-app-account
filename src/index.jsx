@@ -19,12 +19,12 @@ import IdVerificationPageSlot from './plugin-slots/IdVerificationPageSlot';
 import messages from './i18n';
 
 import './index.scss';
+import 'titaned-lib/dist/index.css';
 import Head from './head/Head';
 import NotificationCourses from './notification-preferences/NotificationCourses';
 import NotificationPreferences from './notification-preferences/NotificationPreferences';
 import Layout from './Layout';
 
-import 'titaned-lib/dist/index.css';
 import './styles/styles-overrides.scss';
 
 subscribe(APP_READY, () => {

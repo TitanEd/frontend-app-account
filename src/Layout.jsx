@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from 'react';
-import './index.scss';
 import { Outlet, useLocation, useNavigate } from 'react-router';
 import { MainHeader, Sidebar, SidebarProvider } from 'titaned-lib';
 import { AppContext } from '@edx/frontend-platform/react';
