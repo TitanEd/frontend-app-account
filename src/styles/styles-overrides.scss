@@ -1,20 +1,20 @@
 // Mixins
 @mixin card-style1 {
-    border-radius: 1rem;
-    border: 1px solid var(--border-color);
-    background-color: var(--bg-surface);
+    border-radius: 1rem !important;
+    border: 1px solid var(--border-color) !important;
+    background-color: var(--bg-surface) !important;
 }
 
 @mixin card-style2 {
-    border-radius: 12px;
-    border: 1px solid var(--border-color);
-    background-color: var(--bg-surface);
+    border-radius: 12px !important;
+    border: 1px solid var(--border-color) !important;
+    background-color: var(--bg-surface) !important;
 }
 
 @mixin card-style3 {
-    border-radius: 8px;
-    border: 1px solid var(--border-color);
-    background-color: var(--bg-surface);
+    border-radius: 8px !important;
+    border: 1px solid var(--border-color) !important;
+    background-color: var(--bg-surface) !important;
 }
 
 @mixin sub-header-title-style1 {
@@ -47,7 +47,7 @@
 
 .account-section {
     @include card-style1;
-    padding: 1rem;
+    padding: 1rem !important;
 
     .section-heading {
         @include section-title-style1;
@@ -55,10 +55,10 @@
 
     .pgn-transition-replace-group {
         @include card-style2;
-        padding-top: 1rem;
-        padding-left: 1rem;
-        padding-right: 1rem;
-        margin-bottom: 1rem;
+        padding-top: 1rem !important;
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+        margin-bottom: 1rem !important;
     }
 
     // .form-group {
@@ -96,19 +96,19 @@
 
     .reset-password-form-group {
         @include card-style2;
-        padding-top: 1rem;
-        padding-left: 1rem;
-        padding-right: 1rem;
-        margin-bottom: 1rem;
+        padding-top: 1rem !important;
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+        margin-bottom: 1rem !important;
     }
 
     .reset-password-fields {
 
-        display: flex;
-        justify-content: space-between;
+        display: flex !important;
+        justify-content: space-between !important;
 
         h6 {
-            padding-top: 0.5rem;
+            padding-top: 0.5rem !important;
             font-weight: 500 !important;
             color: var(--text-primary) !important;
         }
@@ -116,18 +116,18 @@
 
     .delete-account-section {
         @include card-style2;
-        padding: 1rem;
+        padding: 1rem !important;
     }
 }
 
 .linked-accounts-section {
     .form-group {
         @include card-style2;
-        padding: 1rem;
-        margin-bottom: 1rem;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+        padding: 1rem !important;
+        margin-bottom: 1rem !important;
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
     }
 }
 
@@ -137,7 +137,7 @@
 
     .jump-nav {
         @include card-style1;
-        padding: 1rem;
+        padding: 1rem !important;
         // height: 100%;
     }
 
@@ -153,9 +153,9 @@
 
 
 .customHr {
-    border: 'none';
-    border-top: '1px solid #e5e6e6', ;
-    margin: '0 0 0 0';
-    margin-left: -1rem;
-    margin-right: -1rem;
+    border: 'none' !important;
+    border-top: '1px solid #e5e6e6' !important;
+    margin: '0 0 0 0' !important;
+    margin-left: -1rem !important;
+    margin-right: -1rem !important;
 }
