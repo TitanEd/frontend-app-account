@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
+import './index.scss';
 import { Outlet, useLocation, useNavigate } from 'react-router';
 import { MainHeader, Sidebar, SidebarProvider } from 'titaned-lib';
 import { AppContext } from '@edx/frontend-platform/react';
@@ -7,7 +8,6 @@ import {
   Analytics, Assignment, Assistant, Calendar, FolderShared, Home, LibraryAdd, LibraryBooks, Lightbulb, LmsBook,
 } from '@openedx/paragon/icons';
 import getUserMenuItems from './library/utils/getUserMenuItems';
-import './index.scss';
 
 // API to fetch sidebar items
 const fetchNavigationItems = async () => {

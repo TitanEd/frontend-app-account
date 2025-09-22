@@ -22,8 +22,9 @@ import './index.scss';
 import Head from './head/Head';
 import NotificationCourses from './notification-preferences/NotificationCourses';
 import NotificationPreferences from './notification-preferences/NotificationPreferences';
-import 'titaned-lib/dist/index.css';
 import Layout from './Layout';
+
+import 'titaned-lib/dist/index.css';
 import './styles/styles-overrides.scss';
 
 subscribe(APP_READY, () => {
