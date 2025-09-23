@@ -7,6 +7,7 @@ import {
   Analytics, Assignment, Assistant, Calendar, FolderShared, Home, LibraryAdd, LibraryBooks, Lightbulb, LmsBook,
 } from '@openedx/paragon/icons';
 import getUserMenuItems from './library/utils/getUserMenuItems';
+import { applyTheme } from './styles/themeLoader';
 
 // API to fetch sidebar items
 const fetchNavigationItems = async () => {
@@ -56,6 +57,9 @@ const Layout = () => {
 
   useEffect(() => {
     let isMounted = true;
+
+    // Apply theme from JSON
+    applyTheme(); // Load default theme from /theme.json
 
     const fetchMenu = async () => {
       try {
