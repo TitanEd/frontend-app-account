@@ -10,6 +10,8 @@ $fa-font-path: "~font-awesome/fonts";
 
 @import "./account-settings/style";
 @import "./id-verification/id-verification";
+@import "titaned-lib/dist/index.css";
+@import "./styles/styles-overrides";
 
 body {
   overflow: hidden;
