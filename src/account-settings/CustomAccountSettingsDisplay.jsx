@@ -18,19 +18,19 @@ const CustomAccountSettingsDisplay = ({
   renderConfirmationMessage,
   helpText,
 }) => (
-  <div className="d-flex justify-content-between align-items-center">
-    <div>
+  <div className="d-flex custom-account-settings-display justify-content-between align-items-center">
+    <div className="form-group-container">
       <div className="d-flex">
         <h6 aria-level="3" className="form-group-label">{label}</h6>
       </div>
-      <p data-hj-suppress className={`form-group-value ${classNames('text-truncate', { 'grayed-out': isGrayedOut })}`}>
+      <p data-hj-suppress className={`form-group-value form-group-value-text ${classNames('text-truncate', { 'grayed-out': isGrayedOut })}`}>
         {renderValue(value)}
       </p>
-      <p className="small text-muted mt-n2">
+      <p className="form-group-help-text">
         {renderConfirmationMessage() || helpText}
       </p>
     </div>
-    <div className="d-flex align-items-center">
+    <div className="d-flex align-items-center custom-account-settings-display-button">
       {isEditable ? (
         <Button variant="outline-primary" size="sm" onClick={handleEdit} className="ml-3">
           <FontAwesomeIcon className="mr-1" icon={faPencilAlt} />
