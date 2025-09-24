@@ -222,8 +222,81 @@
     }
 }
 
-// @media (max-width: 768px) {
-//     .custom-account-settings-display {
+.form-control:focus {
+    border-color: var(--primary) !important;
+    box-shadow: 0 0 0 1px var(--primary) !important;
+}
 
-//     }
-// }
+// Mobile responsive styles for CustomAccountSettingsDisplay
+@media (max-width: 768px) {
+    .custom-account-settings-display {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        
+        .custom-account-settings-display-button {
+            order: -1 !important; // Move button to top
+            margin-bottom: 1rem !important;
+            margin-left: -1rem !important;
+            button {
+                width: 6rem !important;
+            }
+        }
+        
+        .form-group-container {
+            width: 100% !important;
+        }
+    }
+    
+    // Mobile responsive styles for CustomEditableSelectField
+    .custom-editable-select-field {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        
+        .custom-editable-select-field-button {
+            order: -1 !important; // Move button to top
+            margin-bottom: 1rem !important;
+            margin-left: -1rem !important;
+            
+            button {
+                width: 6rem !important;
+            }
+        }
+        
+        .form-group-container {
+            width: 100% !important;
+        }
+    }
+
+    .custom-email-field-display {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        
+        .custom-email-field-display-button {
+            order: -1 !important; // Move button to top
+            margin-bottom: 1rem !important;
+            margin-left: -1rem !important;
+            
+            button {
+                width: 6rem !important;
+            }
+        }
+        
+        .form-group-container {
+            width: 100% !important;
+        }
+    }
+
+    .custom-confirmation-alert {
+        word-wrap: break-word !important;
+        word-break: break-word !important;
+        overflow-wrap: break-word !important;
+        white-space: normal !important;
+        max-width: 100% !important;
+        
+        .alert {
+            word-wrap: break-word !important;
+            word-break: break-word !important;
+            overflow-wrap: break-word !important;
+        }
+    }
+}

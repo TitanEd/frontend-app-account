@@ -18,7 +18,7 @@ const CustomEditableSelectField = ({
   renderConfirmationMessage,
   helpText,
 }) => (
-  <div className="d-flex justify-content-between align-items-center">
+  <div className="d-flex justify-content-between align-items-center custom-editable-select-field">
     <div>
       <div className="d-flex">
         <h6 aria-level="3" className="form-group-label">{label}</h6>
@@ -30,7 +30,7 @@ const CustomEditableSelectField = ({
         {renderConfirmationMessage() || helpText}
       </p>
     </div>
-    <div className="d-flex align-items-center">
+    <div className="d-flex align-items-center custom-editable-select-field-button">
       {isEditable ? (
         <Button variant="outline-primary" size="sm" onClick={handleEdit} className="ml-3">
           <FontAwesomeIcon className="mr-1" icon={faPencilAlt} />
