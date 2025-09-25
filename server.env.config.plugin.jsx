@@ -16,11 +16,11 @@ const { default: CustomJumpNav} = await import('./src/account-settings/CustomJum
 
 {% raw %}
 
-config = {
-  ...config,
-  ...process.env,
-}
-config.pluginSlots = {
+const getPluginSlots = () => {
+  if (typeof window !== 'undefined' && localStorage.getItem('oldUI') === 'true') {
+      return {};
+  }
+  return {
     account_settings_display_fields: {
         plugins: [
           {
@@ -73,7 +73,12 @@ config.pluginSlots = {
           },
         ],
     },
-}
+  };
+};
+
+// Load environment variables from .env file
+config.pluginSlots = getPluginSlots();
+
 {% endraw %}
 """
      ))
