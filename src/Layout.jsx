@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React, { useContext, useEffect, useState } from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router';
 import { MainHeader, Sidebar, SidebarProvider } from 'titaned-lib';
@@ -7,7 +8,8 @@ import {
   Analytics, Assignment, Assistant, Calendar, FolderShared, Home, LibraryAdd, LibraryBooks, Lightbulb, LmsBook,
 } from '@openedx/paragon/icons';
 import getUserMenuItems from './library/utils/getUserMenuItems';
-import { applyTheme } from './styles/themeLoader';
+import { setUIPreference } from './services/uiPreferenceService';
+// import { applyTheme } from './styles/themeLoader';
 
 // API to fetch sidebar items
 const fetchNavigationItems = async () => {
@@ -59,7 +61,7 @@ const Layout = () => {
     let isMounted = true;
 
     // Apply theme from JSON
-    applyTheme(); // Load default theme from /theme.json
+    // applyTheme(); // Load default theme from /theme.json
 
     const fetchMenu = async () => {
       try {
@@ -137,6 +139,12 @@ const Layout = () => {
               path: '/taxonomies',
               icon: <Assignment />,
               isVisible: true, // Always visible
+            },
+            {
+              label: 'Switch to Old View',
+              path: 'switch-to-old-view',
+              icon: <FolderShared />,
+              isVisible: true,
             },
           ];
 
@@ -230,6 +238,12 @@ const Layout = () => {
             icon: <Assignment />,
             isVisible: true,
           },
+          {
+            label: 'Switch to Old View',
+            path: 'switch-to-old-view',
+            icon: <FolderShared />,
+            isVisible: true,
+          },
         ];
 
         // Filter visible items and remove the isVisible property
@@ -260,8 +274,23 @@ const Layout = () => {
     };
   }, []);
 
-  const handleNavigate = (path) => {
-    navigate(path);
+  const handleNavigate = async (path) => {
+    if (path === 'switch-to-old-view') {
+      try {
+        console.log('Switching to old UI...');
+        const success = await setUIPreference(false);
+        if (success) {
+          console.log('Successfully switched to old UI, reloading page...');
+          window.location.href = '/account/';
+        } else {
+          console.error('Failed to switch to old UI');
+        }
+      } catch (error) {
+        console.error('Error switching to old UI:', error);
+      }
+    } else {
+      navigate(path);
+    }
   };
 
   return (

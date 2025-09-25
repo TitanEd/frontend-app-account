@@ -6,9 +6,12 @@ import CustomEmailFieldDisplay from './src/account-settings/CustomEmailFieldDisp
 import CustomEditableSelectField from './src/account-settings/CustomEditableSelectField';
 import CustomJumpNav from './src/account-settings/CustomJumpNav';
 
-const config = {
-  ...process.env,
-  pluginSlots: {
+const getPluginSlots = () => {
+  if (typeof window !== 'undefined' && localStorage.getItem('oldUI') === 'true') {
+    return {};
+  }
+
+  return {
     account_settings_display_fields: {
       plugins: [
         {
@@ -69,6 +72,14 @@ const config = {
         },
       ],
     },
+  };
+};
+
+// Load environment variables from .env file
+const config = {
+  ...process.env,
+  get pluginSlots() {
+    return getPluginSlots();
   },
 };
 

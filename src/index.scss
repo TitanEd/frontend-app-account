@@ -4,17 +4,21 @@ $fa-font-path: "~font-awesome/fonts";
 @import "~@edx/brand/paragon/fonts";
 @import "~@edx/brand/paragon/variables";
 @import "~@openedx/paragon/scss/core/core";
-// @import "~@edx/brand/paragon/overrides";
 @import "~@edx/frontend-component-header/dist/index";
 @import "~@edx/frontend-component-footer/dist/footer";
 
 @import "./account-settings/style";
 @import "./id-verification/id-verification";
-@import "titaned-lib/dist/index.css";
-@import "./styles/styles-overrides";
+// @import "titaned-lib/dist/index.css";
+// @import "./styles/styles-overrides";
 
-body {
-  overflow: hidden;
+html, body.new-ui {
+  overflow: hidden !important; /* Prevent outer scrollbar for new UI */
+}
+
+/* Allow scrolling for old UI */
+html, body.old-ui {
+  overflow: auto !important; /* Allow scrolling for old UI */
 }
 
 .word-break-all {
