@@ -4,6 +4,7 @@ import { Outlet, useLocation, useNavigate } from 'react-router';
 import { MainHeader, Sidebar, SidebarProvider } from 'titaned-lib';
 import { AppContext } from '@edx/frontend-platform/react';
 import { getAuthenticatedHttpClient } from '@edx/frontend-platform/auth';
+import { Spinner } from '@openedx/paragon';
 import {
   Analytics, Assignment, Assistant, Calendar, FolderShared, Home, LibraryAdd, LibraryBooks, Lightbulb, LmsBook,
 } from '@openedx/paragon/icons';
@@ -314,7 +315,9 @@ const Layout = () => {
         <div className="content-wrapper">
           <div className="sidebar-container">
             {loadingSidebar ? (
-              <div>Loading menu...</div>
+              <div className="d-flex justify-content-center" style={{ height: '100%', width: '80px', paddingTop: '1rem' }}>
+                <Spinner animation="border" variant="primary" />
+              </div>
             ) : (
               <Sidebar
                 buttons={sidebarItems}
