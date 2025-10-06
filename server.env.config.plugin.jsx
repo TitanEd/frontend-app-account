@@ -11,7 +11,10 @@ const { React } = await import('react');
 const { PLUGIN_OPERATIONS, DIRECT_PLUGIN } = await import('@openedx/frontend-plugin-framework');
 const { default: CustomAccountSettingsDisplay} = await import('./src/account-settings/CustomAccountSettingsDisplay');
 const { default: CustomEmailFieldDisplay} = await import('./src/account-settings/CustomEmailFieldDisplay');
+const { default: CustomEmailFieldBtns} = await import('./src/account-settings/CustomEmailFieldBtns');
 const { default: CustomEditableSelectField} = await import('./src/account-settings/CustomEditableSelectField');
+const { default: CustomEditableSelectFieldBtns} = await import('./src/account-settings/CustomEditableSelectFieldBtns');
+const { default: CustomEditableFieldBtns} = await import('./src/account-settings/CustomEditableFieldBtns');
 const { default: CustomJumpNav} = await import('./src/account-settings/CustomJumpNav');
 
 {% raw %}
@@ -47,6 +50,21 @@ const getPluginSlots = () => {
           },
         ],
     },
+    email_field_buttons: {
+      plugins: [
+        {
+          op: PLUGIN_OPERATIONS.Insert,
+          widget: {
+            id: 'email_field_buttons',
+            type: DIRECT_PLUGIN,
+            priority: 1,
+            RenderWidget: (props) => (
+              <CustomEmailFieldBtns {...props} />
+            ),
+          },
+        },
+      ],
+    },
     editable_select_field_display: {
         plugins: [
           {
@@ -59,6 +77,36 @@ const getPluginSlots = () => {
             },
           },
         ],
+    },
+    editable_select_field_buttons: {
+      plugins: [
+        {
+          op: PLUGIN_OPERATIONS.Insert,
+          widget: {
+            id: 'editable_select_field_buttons',
+            type: DIRECT_PLUGIN,
+            priority: 1,
+            RenderWidget: (props) => (
+              <CustomEditableSelectFieldBtns {...props} />
+            ),
+          },
+        },
+      ],
+    },
+    editable_field_buttons: {
+      plugins: [
+        {
+          op: PLUGIN_OPERATIONS.Insert,
+          widget: {
+            id: 'editable_field_buttons',
+            type: DIRECT_PLUGIN,
+            priority: 1,
+            RenderWidget: (props) => (
+              <CustomEditableFieldBtns {...props} />
+            ),
+          },
+        },
+      ],
     },
     jump_nav_display: {
         plugins: [
