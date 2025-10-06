@@ -150,15 +150,24 @@ const EditableSelectField = (props) => {
                 {error != null && <Form.Control.Feedback>{error}</Form.Control.Feedback>}
                 {others.children}
               </Form.Group>
-              <p>
-                <StatefulButton
-                  type="submit"
-                  className="mr-2"
-                  state={saveState}
-                  labels={{
-                    default: intl.formatMessage(messages['account.settings.editable.field.action.save']),
-                  }}
-                  onClick={(e) => {
+              <PluginSlot
+                id="editable_select_field_buttons"
+                pluginProps={{
+                  saveState,
+                  handleCancel,
+                  intl,
+                  messages,
+                }}
+              >
+                <p>
+                  <StatefulButton
+                    type="submit"
+                    className="mr-2"
+                    state={saveState}
+                    labels={{
+                      default: intl.formatMessage(messages['account.settings.editable.field.action.save']),
+                    }}
+                    onClick={(e) => {
                     // Swallow clicks if the state is pending.
                     // We do this instead of disabling the button to prevent
                     // it from losing focus (disabled elements cannot have focus).
@@ -166,17 +175,18 @@ const EditableSelectField = (props) => {
                     // Swallowing the onSubmit event on the form would be better, but
                     // we would have to add that logic for every field given our
                     // current structure of the application.
-                    if (saveState === 'pending') { e.preventDefault(); }
-                  }}
-                  disabledStates={[]}
-                />
-                <Button
-                  variant="outline-primary"
-                  onClick={handleCancel}
-                >
-                  {intl.formatMessage(messages['account.settings.editable.field.action.cancel'])}
-                </Button>
-              </p>
+                      if (saveState === 'pending') { e.preventDefault(); }
+                    }}
+                    disabledStates={[]}
+                  />
+                  <Button
+                    variant="outline-primary"
+                    onClick={handleCancel}
+                  >
+                    {intl.formatMessage(messages['account.settings.editable.field.action.cancel'])}
+                  </Button>
+                </p>
+              </PluginSlot>
             </form>
             {['name', 'verified_name'].includes(name) && <CertificatePreference fieldName={name} />}
           </>

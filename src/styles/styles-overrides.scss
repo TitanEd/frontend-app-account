@@ -123,6 +123,15 @@
     .delete-account-section {
         @include card-style2;
         padding: 1rem !important;
+
+        .pgn__hyperlink {
+            color: var(--primary) !important;
+            text-decoration-color: var(--primary) !important;
+            &:hover {
+                color: var(--primary-hover) !important;
+                text-decoration-color: var(--primary-hover) !important;
+            }
+        }
     }
 }
 
@@ -230,6 +239,12 @@
 [dir=rtl] select.form-control {
     padding: 0.5625rem 2rem !important;
 }
+
+// .account-section {
+//     .btn-outline-primary {
+
+//     }
+// }
 
 // Mobile responsive styles for CustomAccountSettingsDisplay
 @media (max-width: 768px) {

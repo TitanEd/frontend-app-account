@@ -117,33 +117,43 @@ const EditableField = (props) => {
                 {error != null && <Form.Control.Feedback hasIcon={false}>{error}</Form.Control.Feedback>}
                 {others.children}
               </Form.Group>
-              <p>
-                <StatefulButton
-                  type="submit"
-                  className="mr-2"
-                  state={saveState}
-                  labels={{
-                    default: intl.formatMessage(messages['account.settings.editable.field.action.save']),
-                  }}
-                  onClick={(e) => {
-                    // Swallow clicks if the state is pending.
-                    // We do this instead of disabling the button to prevent
-                    // it from losing focus (disabled elements cannot have focus).
-                    // Disabling it would causes upstream issues in focus management.
-                    // Swallowing the onSubmit event on the form would be better, but
-                    // we would have to add that logic for every field given our
-                    // current structure of the application.
-                    if (saveState === 'pending') { e.preventDefault(); }
-                  }}
-                  disabledStates={[]}
-                />
-                <Button
-                  variant="outline-primary"
-                  onClick={handleCancel}
-                >
-                  {intl.formatMessage(messages['account.settings.editable.field.action.cancel'])}
-                </Button>
-              </p>
+              <PluginSlot
+                id="editable_field_buttons"
+                pluginProps={{
+                  saveState,
+                  handleCancel,
+                  intl,
+                  messages,
+                }}
+              >
+                <p>
+                  <StatefulButton
+                    type="submit"
+                    className="mr-2"
+                    state={saveState}
+                    labels={{
+                      default: intl.formatMessage(messages['account.settings.editable.field.action.save']),
+                    }}
+                    onClick={(e) => {
+                      // Swallow clicks if the state is pending.
+                      // We do this instead of disabling the button to prevent
+                      // it from losing focus (disabled elements cannot have focus).
+                      // Disabling it would causes upstream issues in focus management.
+                      // Swallowing the onSubmit event on the form would be better, but
+                      // we would have to add that logic for every field given our
+                      // current structure of the application.
+                      if (saveState === 'pending') { e.preventDefault(); }
+                    }}
+                    disabledStates={[]}
+                  />
+                  <Button
+                    variant="outline-primary"
+                    onClick={handleCancel}
+                  >
+                    {intl.formatMessage(messages['account.settings.editable.field.action.cancel'])}
+                  </Button>
+                </p>
+              </PluginSlot>
             </form>
             {['name', 'verified_name'].includes(name) && <CertificatePreference fieldName={name} />}
           </div>
