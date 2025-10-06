@@ -227,6 +227,10 @@
     box-shadow: 0 0 0 1px var(--primary) !important;
 }
 
+[dir=rtl] select.form-control {
+    padding: 0.5625rem 2rem !important;
+}
+
 // Mobile responsive styles for CustomAccountSettingsDisplay
 @media (max-width: 768px) {
     .custom-account-settings-display {
