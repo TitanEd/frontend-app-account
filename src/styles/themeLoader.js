@@ -4,7 +4,7 @@ import { getConfig } from '@edx/frontend-platform';
 export const applyTheme = async () => {
   try {
     const response = await getAuthenticatedHttpClient().get(
-      `${getConfig().STUDIO_BASE_URL}/titaned/api/v1/menu-config/`,
+      `${getConfig().LMS_BASE_URL}/titaned/api/v1/menu-config/`,
     );
 
     if (response.status !== 200) {
