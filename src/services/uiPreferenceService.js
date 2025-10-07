@@ -21,7 +21,7 @@ export const getUIPreference = async () => {
     console.log('Fetching UI preference from API...');
     
     const response = await getAuthenticatedHttpClient().get(
-      `${getConfig().LMS_BASE_URL}/titaned/api/v1/menu-config/`,
+      `${getConfig().STUDIO_BASE_URL}/titaned/api/v1/menu-config/`,
     );
 
     if (response.status === 200 && response.data) {
@@ -62,7 +62,7 @@ export const setUIPreference = async (useNewUI) => {
     console.log('Setting UI preference via API:', useNewUI);
     
     const response = await getAuthenticatedHttpClient().post(
-      `${getConfig().LMS_BASE_URL}/titaned/api/v1/set_ui_preference/`,
+      `${getConfig().STUDIO_BASE_URL}/titaned/api/v1/set_ui_preference/`,
       {
         use_new_ui: useNewUI,
       },
