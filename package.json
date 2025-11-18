@@ -83,7 +83,7 @@
     "regenerator-runtime": "0.14.1",
     "reselect": "^5.1.1",
     "universal-cookie": "7.2.1",
-    "titaned-lib": "^0.0.138"
+    "titaned-frontend-library": "^1.0.9"
   },
   "devDependencies": {
     "@edx/browserslist-config": "1.2.0",
