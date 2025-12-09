@@ -21,7 +21,6 @@ const CustomJumpNav = ({
     // Use requestAnimationFrame to ensure DOM is ready
     requestAnimationFrame(() => {
       const element = document.getElementById(sectionId);
-      console.log('Looking for section:', sectionId, 'Element found:', !!element);
 
       if (element) {
         // Find the main content container - this is the actual scrollable element
@@ -44,7 +43,6 @@ const CustomJumpNav = ({
             targetScroll = elementTop - 20; // 20px offset for comfort
           }
 
-          console.log('Current scroll:', currentScrollTop, 'Element top:', elementTop, 'Target scroll:', targetScroll, 'Direction:', elementTop < currentScrollTop ? 'UP' : 'DOWN');
 
           // Scroll the main content container to the target position
           mainContent.scrollTo({
@@ -62,7 +60,6 @@ const CustomJumpNav = ({
           });
         }
       } else {
-        console.log('Section not found, trying alternative approach');
         // Alternative approach: scroll to approximate position
         const sections = ['basic-information', 'profile-information', 'social-media', 'site-preferences', 'linked-accounts', 'delete-account'];
         const sectionIndex = sections.indexOf(sectionId);
@@ -138,10 +135,8 @@ const CustomJumpNav = ({
       'delete-account',
     ];
 
-    console.log('Checking for sections on mount:');
     sections.forEach(sectionId => {
       const element = document.getElementById(sectionId);
-      console.log(`${sectionId}: ${element ? 'Found' : 'Not found'}`);
     });
   }, []);
 
