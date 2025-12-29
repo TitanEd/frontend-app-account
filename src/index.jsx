@@ -12,6 +12,8 @@ import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { Route, Routes, Outlet } from 'react-router-dom';
 
+import { dynamicTheme } from 'titaned-frontend-library';
+
 import Header from '@edx/frontend-component-header';
 import FooterSlot from '@openedx/frontend-slot-footer';
 
@@ -27,7 +29,6 @@ import Head from './head/Head';
 import NotificationCourses from './notification-preferences/NotificationCourses';
 import NotificationPreferences from './notification-preferences/NotificationPreferences';
 import Layout from './Layout';
-import { applyTheme } from './styles/themeLoader';
 import { setUIPreference } from './services/uiPreferenceService';
 
 // import './styles/styles-overrides.scss';
@@ -95,7 +96,14 @@ const App = () => {
   // Apply theme from JSON
   useEffect(() => {
     if (oldUI === 'false') {
-      applyTheme(); // Load default theme from /theme.json
+      (async () => {
+        try {
+          const response = await getAuthenticatedHttpClient().get(`${getConfig().LMS_BASE_URL}/titaned/api/v1/mfe_context/`);
+          dynamicTheme(response);
+        } catch (error) {
+          console.error('Error fetching theme config:', error);
+        }
+      })();
     }
   }, [oldUI]);
 
