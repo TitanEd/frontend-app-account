@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Icon } from '@openedx/paragon';
@@ -42,7 +43,6 @@ const CustomJumpNav = ({
             // Scrolling DOWN - element is below current scroll position
             targetScroll = elementTop - 20; // 20px offset for comfort
           }
-
 
           // Scroll the main content container to the target position
           mainContent.scrollTo({
@@ -122,22 +122,6 @@ const CustomJumpNav = ({
 
     // Return empty cleanup function if no main content found
     return () => {};
-  }, []);
-
-  // Debug: Check if sections exist on mount
-  React.useEffect(() => {
-    const sections = [
-      'basic-information',
-      'profile-information',
-      'social-media',
-      'site-preferences',
-      'linked-accounts',
-      'delete-account',
-    ];
-
-    sections.forEach(sectionId => {
-      const element = document.getElementById(sectionId);
-    });
   }, []);
 
   return (
