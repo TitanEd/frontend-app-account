@@ -67,22 +67,6 @@
         margin-bottom: 1rem !important;
     }
 
-    // .form-group {
-    //     @include card-style3;
-    //     padding-top: 1rem;
-    //     padding-left: 1rem;
-    //     padding-right: 1rem;
-    //     min-height: 6rem;
-    // }
-
-    // .editable-field-form-group {
-    //     @include card-style3;
-    //     padding-top: 1rem;
-    //     padding-left: 1rem;
-    //     padding-right: 1rem;
-    //     margin-bottom: 1rem;
-    // }
-
     .form-group {
         margin-bottom: 1rem !important;
         h6 {
@@ -153,7 +137,6 @@
     .jump-nav {
         @include card-style1;
         padding: 1rem !important;
-        // height: 100%;
 
         @media (min-width: 768px) {
             position: sticky !important;
@@ -239,12 +222,6 @@
 [dir=rtl] select.form-control {
     padding: 0.5625rem 2rem !important;
 }
-
-// .account-section {
-//     .btn-outline-primary {
-
-//     }
-// }
 
 // Mobile responsive styles for CustomAccountSettingsDisplay
 @media (max-width: 768px) {
