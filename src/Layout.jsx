@@ -1,12 +1,14 @@
+/* eslint-disable import/no-unresolved */
+/* eslint-disable import/extensions */
 /* eslint-disable no-console */
-import React, { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router';
 import { MainHeader, Sidebar, SidebarProvider } from 'titaned-frontend-library';
 import { AppContext } from '@edx/frontend-platform/react';
 import { getAuthenticatedHttpClient } from '@edx/frontend-platform/auth';
 import { Spinner } from '@openedx/paragon';
 import {
-  Analytics, Assignment, Assistant, Calendar, FolderShared, Home, LibraryAdd, LibraryBooks, Lightbulb, LmsBook,
+  FolderShared, Home, LmsBook,
 } from '@openedx/paragon/icons';
 import { getConfig } from '@edx/frontend-platform';
 import { useIntl } from '@edx/frontend-platform/i18n';
@@ -99,7 +101,6 @@ const Layout = () => {
     fetchUserMenuItemsFromAPI();
   }, []);
 
-
   const updatedAuthenticatedUser = {
     ...authenticatedUser,
     username: userMenuItemsFromAPI?.username || authenticatedUser?.username,
@@ -107,7 +108,6 @@ const Layout = () => {
       ? userMenuItemsFromAPI.profile_image.image_url_small
       : authenticatedUser?.avatar,
   };
-
 
   const userMenuItems = getUserMenuItems({
     lmsBaseUrl: LMS_BASE_URL,
