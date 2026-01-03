@@ -1,14 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import classNames from 'classnames';
+
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import {
   Button, Form, StatefulButton,
 } from '@openedx/paragon';
 import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import classNames from 'classnames';
 
+import { PluginSlot } from '@openedx/frontend-plugin-framework';
 import SwitchContent from './SwitchContent';
 import messages from './AccountSettingsPage.messages';
 
@@ -95,7 +97,7 @@ const EditableField = (props) => {
       expression={isEditing ? 'editing' : 'default'}
       cases={{
         editing: (
-          <>
+          <div className="editable-field-form-group">
             <form onSubmit={handleSubmit}>
               <Form.Group
                 controlId={id}
@@ -115,49 +117,75 @@ const EditableField = (props) => {
                 {error != null && <Form.Control.Feedback hasIcon={false}>{error}</Form.Control.Feedback>}
                 {others.children}
               </Form.Group>
-              <p>
-                <StatefulButton
-                  type="submit"
-                  className="mr-2"
-                  state={saveState}
-                  labels={{
-                    default: intl.formatMessage(messages['account.settings.editable.field.action.save']),
-                  }}
-                  onClick={(e) => {
-                    // Swallow clicks if the state is pending.
-                    // We do this instead of disabling the button to prevent
-                    // it from losing focus (disabled elements cannot have focus).
-                    // Disabling it would causes upstream issues in focus management.
-                    // Swallowing the onSubmit event on the form would be better, but
-                    // we would have to add that logic for every field given our
-                    // current structure of the application.
-                    if (saveState === 'pending') { e.preventDefault(); }
-                  }}
-                  disabledStates={[]}
-                />
-                <Button
-                  variant="outline-primary"
-                  onClick={handleCancel}
-                >
-                  {intl.formatMessage(messages['account.settings.editable.field.action.cancel'])}
-                </Button>
-              </p>
+              <PluginSlot
+                id="editable_field_buttons"
+                pluginProps={{
+                  saveState,
+                  handleCancel,
+                  intl,
+                  messages,
+                }}
+              >
+                <p>
+                  <StatefulButton
+                    type="submit"
+                    className="mr-2"
+                    state={saveState}
+                    labels={{
+                      default: intl.formatMessage(messages['account.settings.editable.field.action.save']),
+                    }}
+                    onClick={(e) => {
+                      // Swallow clicks if the state is pending.
+                      // We do this instead of disabling the button to prevent
+                      // it from losing focus (disabled elements cannot have focus).
+                      // Disabling it would causes upstream issues in focus management.
+                      // Swallowing the onSubmit event on the form would be better, but
+                      // we would have to add that logic for every field given our
+                      // current structure of the application.
+                      if (saveState === 'pending') { e.preventDefault(); }
+                    }}
+                    disabledStates={[]}
+                  />
+                  <Button
+                    variant="outline-primary"
+                    onClick={handleCancel}
+                  >
+                    {intl.formatMessage(messages['account.settings.editable.field.action.cancel'])}
+                  </Button>
+                </p>
+              </PluginSlot>
             </form>
             {['name', 'verified_name'].includes(name) && <CertificatePreference fieldName={name} />}
-          </>
+          </div>
         ),
         default: (
           <div className="form-group">
-            <div className="d-flex align-items-start">
-              <h6 aria-level="3">{label}</h6>
-              {isEditable ? (
-                <Button variant="link" onClick={handleEdit} className="ml-3">
-                  <FontAwesomeIcon className="mr-1" icon={faPencilAlt} />{intl.formatMessage(messages['account.settings.editable.field.action.edit'])}
-                </Button>
-              ) : null}
-            </div>
-            <p data-hj-suppress className={classNames('text-truncate', { 'grayed-out': isGrayedOut })}>{renderValue(value)}</p>
-            <p className="small text-muted mt-n2">{renderConfirmationMessage() || helpText}</p>
+            <PluginSlot
+              id="account_settings_display_fields"
+              pluginProps={{
+                label,
+                isEditable,
+                handleEdit,
+                intl,
+                messages,
+                value,
+                isGrayedOut,
+                renderValue,
+                renderConfirmationMessage,
+                helpText,
+              }}
+            >
+              <div className="d-flex align-items-start">
+                <h6 aria-level="3">{label}</h6>
+                {isEditable ? (
+                  <Button variant="link" onClick={handleEdit} className="ml-3">
+                    <FontAwesomeIcon className="mr-1" icon={faPencilAlt} />{intl.formatMessage(messages['account.settings.editable.field.action.edit'])}
+                  </Button>
+                ) : null}
+              </div>
+              <p data-hj-suppress className={classNames('text-truncate', { 'grayed-out': isGrayedOut })}>{renderValue(value)}</p>
+              <p className="small text-muted mt-n2">{renderConfirmationMessage() || helpText}</p>
+            </PluginSlot>
           </div>
         ),
       }}

@@ -1,0 +1,298 @@
+// Mixins
+@mixin card-style1 {
+    border-radius: 1rem !important;
+    border: 1px solid var(--border-color) !important;
+    background-color: var(--bg-surface) !important;
+}
+
+@mixin card-style2 {
+    border-radius: 12px !important;
+    border: 1px solid var(--border-color) !important;
+    background-color: var(--bg-surface) !important;
+}
+
+@mixin card-style3 {
+    border-radius: 8px !important;
+    border: 1px solid var(--border-color) !important;
+    background-color: var(--bg-surface) !important;
+}
+
+@mixin sub-header-title-style1 {
+    font-size: 20px !important;
+    font-weight: 600 !important;
+    line-height: 1.2 !important;
+    letter-spacing: normal !important;
+}
+
+@mixin section-title-style1 {
+    font-size: 18px !important;
+    font-weight: 500 !important;
+    line-height: 1.2 !important;
+    letter-spacing: normal !important;
+}
+
+@mixin section-title-style2 {
+    font-size: 16px !important;
+    font-weight: 500 !important;
+    line-height: 1.2 !important;
+    letter-spacing: normal !important;
+}
+
+@mixin section-title-style3 {
+    font-size: 16px !important;
+    font-weight: 400 !important;
+    line-height: 1.2 !important;
+    letter-spacing: normal !important;
+}
+
+.account-section {
+    @include card-style1;
+    padding: 1rem !important;
+
+    .section-heading {
+        @include section-title-style1;
+        color: var(--text-primary) !important;
+
+        p {
+            font-size: 18px !important;
+            color: var(--text-muted) !important;
+        }
+    }
+
+    .pgn-transition-replace-group {
+        @include card-style2;
+        padding-top: 1rem !important;
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+        margin-bottom: 1rem !important;
+    }
+
+    .form-group {
+        margin-bottom: 1rem !important;
+        h6 {
+            @include section-title-style3;
+            color: var(--text-muted) !important;
+
+        }
+
+        .form-group-value {
+            font-weight: 500 !important;
+        }
+
+        .p {
+            font-weight: 500 !important;
+        }
+    }
+
+    .reset-password-form-group {
+        @include card-style2;
+        padding-top: 1rem !important;
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+        margin-bottom: 1rem !important;
+    }
+
+    .reset-password-fields {
+
+        display: flex !important;
+        justify-content: space-between !important;
+
+        h6 {
+            padding-top: 0.5rem !important;
+            font-weight: 500 !important;
+            color: var(--text-primary) !important;
+        }
+    }
+
+    .delete-account-section {
+        @include card-style2;
+        padding: 1rem !important;
+
+        .pgn__hyperlink {
+            color: var(--primary) !important;
+            text-decoration-color: var(--primary) !important;
+            &:hover {
+                color: var(--primary-hover) !important;
+                text-decoration-color: var(--primary-hover) !important;
+            }
+        }
+    }
+}
+
+.linked-accounts-section {
+    .form-group {
+        @include card-style2;
+        padding: 1rem !important;
+        margin-bottom: 1rem !important;
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+    }
+}
+
+.page__account-settings {
+    padding-top: 1rem !important;
+    padding-left: 1rem !important;
+
+    .jump-nav {
+        @include card-style1;
+        padding: 1rem !important;
+
+        @media (min-width: 768px) {
+            position: sticky !important;
+        }
+    }
+
+    .account-settings-page-heading {
+        font-size: 24px !important;
+        font-weight: 600 !important;
+        line-height: 1.2 !important;
+        letter-spacing: normal !important;
+        margin-bottom: 1rem !important;
+        margin-left: 0.1rem !important;
+    }
+
+    .row .col-md-10 {
+        max-width: 100% !important;
+    }
+
+    .jump-nav-sm {
+        top: 1rem;
+      }
+    
+      .jump-nav {
+    
+        li {
+          margin-bottom: .5rem;
+    
+          a {
+            text-decoration: underline;
+          }
+        }
+      }
+}
+
+
+.customHr {
+    border: 'none' !important;
+    border-top: '1px solid #e5e6e6' !important;
+    margin: '0 0 0 0' !important;
+    margin-left: -1rem !important;
+    margin-right: -1rem !important;
+}
+
+
+.form-group-container {
+
+    .form-group-value-text {
+        margin-bottom: 0.5rem !important;
+        color: var(--text-primary) !important;
+    }
+
+    .form-group-help-text {
+        margin-top: 0 !important;
+        margin-bottom: 1rem !important;
+        font-size: 16px !important;
+        color: var(--text-muted) !important;
+    }
+}
+
+.page__account-settings .pgn-transition-replace-group form>p button.btn-outline-primary {
+    :hover {
+        background-color: var(--primary) !important;
+        color: var(--) !important;
+    }
+}
+
+.btn-link {
+    color: var(--primary) !important;
+    &:hover {
+        color: var(--primary) !important;
+    }
+    &:focus {
+        color: var(--primary) !important;
+    }
+}
+
+.form-control:focus {
+    border-color: var(--primary) !important;
+    box-shadow: 0 0 0 1px var(--primary) !important;
+}
+
+[dir=rtl] select.form-control {
+    padding: 0.5625rem 2rem !important;
+}
+
+// Mobile responsive styles for CustomAccountSettingsDisplay
+@media (max-width: 768px) {
+    .custom-account-settings-display {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        
+        .custom-account-settings-display-button {
+            order: -1 !important; // Move button to top
+            margin-bottom: 1rem !important;
+            margin-left: -1rem !important;
+            button {
+                width: 6rem !important;
+            }
+        }
+        
+        .form-group-container {
+            width: 100% !important;
+        }
+    }
+    
+    // Mobile responsive styles for CustomEditableSelectField
+    .custom-editable-select-field {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        
+        .custom-editable-select-field-button {
+            order: -1 !important; // Move button to top
+            margin-bottom: 1rem !important;
+            margin-left: -1rem !important;
+            
+            button {
+                width: 6rem !important;
+            }
+        }
+        
+        .form-group-container {
+            width: 100% !important;
+        }
+    }
+
+    .custom-email-field-display {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        
+        .custom-email-field-display-button {
+            order: -1 !important; // Move button to top
+            margin-bottom: 1rem !important;
+            margin-left: -1rem !important;
+            
+            button {
+                width: 6rem !important;
+            }
+        }
+        
+        .form-group-container {
+            width: 100% !important;
+        }
+    }
+
+    .custom-confirmation-alert {
+        word-wrap: break-word !important;
+        word-break: break-word !important;
+        overflow-wrap: break-word !important;
+        white-space: normal !important;
+        max-width: 100% !important;
+        
+        .alert {
+            word-wrap: break-word !important;
+            word-break: break-word !important;
+            overflow-wrap: break-word !important;
+        }
+    }
+}
