@@ -24,7 +24,7 @@ const fetchNavigationItems = async () => {
     // Api fetch on local system 
 
     // const response = await getAuthenticatedHttpClient().get(
-    //   'YOUR_API_DOMAIN/titaned/api/v1/menu-config/'
+    //   'LMS_API_DOMAIN/titaned/api/v1/menu-config/'
     // );
 
     if (response.status !== 200) {
@@ -88,7 +88,7 @@ const Layout = () => {
       try {
         const response = await getAuthenticatedHttpClient().get(`${getConfig().LMS_BASE_URL}/titaned/api/v1/user-dropdown-menu/`);
         // for local api fetch
-        // const response = await getAuthenticatedHttpClient().get('YOUR_API_DOMAIN/titaned/api/v1/user-dropdown-menu/');
+        // const response = await getAuthenticatedHttpClient().get('LMS_API_DOMAIN/titaned/api/v1/user-dropdown-menu/');
         const { data } = response;
         if (data) {
           setUserMenuItemsFromAPI(data);
