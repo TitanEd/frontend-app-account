@@ -17,6 +17,7 @@ import configureStore from './data/configureStore';
 import AccountSettingsPage, { NotFoundPage } from './account-settings';
 import IdVerificationPageSlot from './plugin-slots/IdVerificationPageSlot';
 import messages from './i18n';
+import { Navigate } from 'react-router-dom';
 
 import './index.scss';
 import Head from './head/Head';
@@ -44,7 +45,8 @@ subscribe(APP_READY, () => {
             path="/id-verification/*"
             element={<IdVerificationPageSlot />}
           />
-          <Route path="/" element={<AccountSettingsPage />} />
+          <Route index element={<Navigate to="account-setting" replace />} />
+          <Route path="account-setting" element={<AccountSettingsPage />} />
           <Route path="/notfound" element={<NotFoundPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>
