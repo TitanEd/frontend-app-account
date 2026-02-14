@@ -3,7 +3,7 @@
 /* eslint-disable no-console */
 import { useContext, useEffect, useState } from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router';
-import { MainHeader, Sidebar, SidebarProvider } from 'titaned-frontend-library';
+import { MainHeader, Sidebar, SidebarProvider, AnnouncementBanner } from 'titaned-frontend-library';
 import { AppContext } from '@edx/frontend-platform/react';
 import { getAuthenticatedHttpClient } from '@edx/frontend-platform/auth';
 import { Spinner } from '@openedx/paragon';
@@ -62,6 +62,36 @@ const Layout = () => {
   const [headerButtons, setHeaderButtons] = useState({});
   const [languageSelectorList, setLanguageSelectorList] = useState([]);
   const [userMenuItemsFromAPI, setUserMenuItemsFromAPI] = useState({});
+
+  const [systemAlert, setSystemAlert] = useState(null);
+  const [userAlert, setUserAlert] = useState(null);
+
+  useEffect(() => {
+    const fetchAlerts = async () => {
+      try {
+        const systemResponse = await getAuthenticatedHttpClient().get(`${getConfig().LMS_BASE_URL}/titaned/api/v1/system/alerts/`);
+        // const systemResponse = await getAuthenticatedHttpClient().get('LMS_API_DOMAIN/titaned/api/v1/system/alerts/');
+
+
+        const userResponse = await getAuthenticatedHttpClient().get(`${getConfig().LMS_BASE_URL}/titaned/api/v1/user/alerts/`);
+        // for local api fetch 
+        // const userResponse = await getAuthenticatedHttpClient().get('LMS_API_DOMAIN/titaned/api/v1/user/alerts/');
+
+
+        if (systemResponse?.data) {
+          setSystemAlert(systemResponse.data.alert);
+        }
+
+        if (userResponse?.data) {
+          setUserAlert(userResponse.data.alert);
+        }
+      } catch (error) {
+        console.error('Error fetching announcement alerts:', error);
+      }
+    };
+
+    fetchAlerts();
+  }, []);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -362,6 +392,8 @@ const Layout = () => {
       try {
         const success = await setUIPreference(false);
         if (success) {
+          localStorage.removeItem('systemAlert');
+          localStorage.removeItem('userAlert');
           window.location.reload();
         } else {
           console.error('Failed to switch to old UI');
@@ -380,6 +412,21 @@ const Layout = () => {
 
   return (
     <div className="app-container">
+      {systemAlert && (
+        <AnnouncementBanner
+          announcementType="systemAlert"
+          data={systemAlert}
+          backgroundColor= "#F0F1FA"
+        />
+      )}
+
+      {userAlert && (
+        <AnnouncementBanner
+          announcementType="userAlert"
+          data={userAlert}
+          backgroundColor= "#FEF8F0"
+        />
+      )}
       {/* <p>This is header</p> */}
       <SidebarProvider>
         <div className="header-container">
