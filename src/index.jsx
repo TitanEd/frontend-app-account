@@ -1,15 +1,19 @@
+/* eslint-disable no-console */
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 
 import 'formdata-polyfill';
 import { AppProvider, ErrorPage } from '@edx/frontend-platform/react';
 import {
-  subscribe, initialize, APP_INIT_ERROR, APP_READY, mergeConfig,
+  subscribe, initialize, APP_INIT_ERROR, APP_READY, mergeConfig, getConfig,
 } from '@edx/frontend-platform';
-import React, { StrictMode } from 'react';
+import { getAuthenticatedHttpClient } from '@edx/frontend-platform/auth';
+import { StrictMode, useEffect, useState } from 'react';
 // eslint-disable-next-line import/no-unresolved
 import { createRoot } from 'react-dom/client';
-import { Route, Routes, Outlet } from 'react-router-dom';
+import { Outlet, Route, Routes } from 'react-router-dom';
+
+import { dynamicTheme } from 'titaned-frontend-library';
 
 import Header from '@edx/frontend-component-header';
 import { FooterSlot } from '@edx/frontend-component-footer';
@@ -20,35 +24,175 @@ import IdVerificationPageSlot from './plugin-slots/IdVerificationPageSlot';
 import messages from './i18n';
 
 import './index.scss';
+// import 'titaned-lib/dist/index.css';
 import Head from './head/Head';
+import Layout from './Layout';
+import { setUIPreference } from './services/uiPreferenceService';
+
+// import './styles/styles-overrides.scss';
+
+// Load styles only for new UI
+const loadStylesForNewUI = (isOldUI) => {
+  document.body.className = isOldUI ? 'old-ui' : 'new-ui';
+  document.documentElement.className = isOldUI ? 'old-ui' : 'new-ui';
+
+  if (!isOldUI) {
+    import('titaned-frontend-library/dist/index.css');
+    import('./styles/styles-overrides.scss');
+  } else {
+    import('./styles/old-ui.scss');
+  }
+};
 
 const rootNode = createRoot(document.getElementById('root'));
+let store;
+
+// Main App component with state management
+const App = () => {
+  const [oldUI, setOldUI] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [menuConfig, setMenuConfig] = useState(null);
+
+  // Load UI preference and menu config in one API call to avoid race conditions
+  useEffect(() => {
+    const loadUIPreferenceAndMenuConfig = async () => {
+      try {
+        // First, load from localStorage for immediate display
+        const localStorageValue = localStorage.getItem('oldUI') || 'false';
+        setOldUI(localStorageValue);
+        setLoading(false);
+
+        // Then, fetch both UI preference and menu config in one API call
+        const response = await getAuthenticatedHttpClient().get(`${getConfig().STUDIO_BASE_URL}/titaned/api/v1/menu-config/`);
+
+        if (response.status === 200 && response.data) {
+          setMenuConfig(response.data);
+
+          // Extract UI preference from the same response
+          const useNewUI = response.data.use_new_ui === true;
+          const apiOldUIValue = !useNewUI ? 'true' : 'false';
+
+          // Check if API response matches localStorage
+          if (localStorageValue !== apiOldUIValue) {
+            localStorage.setItem('oldUI', apiOldUIValue);
+            // Reload page to re-run build-time config with correct localStorage
+            window.location.reload();
+            return;
+          }
+
+          console.log('localStorage and API are in sync, no reload needed');
+        } else {
+          console.warn('API failed, using localStorage value and default menu config');
+          setMenuConfig({}); // Set empty object as fallback
+        }
+      } catch (error) {
+        console.error('API call failed, using localStorage value and default menu config:', error);
+        setMenuConfig({}); // Set empty object as fallback
+      }
+    };
+
+    loadUIPreferenceAndMenuConfig();
+  }, []);
+
+  // Apply theme from JSON
+  useEffect(() => {
+    if (oldUI === 'false') {
+      (async () => {
+        try {
+          const response = await getAuthenticatedHttpClient().get(`${getConfig().LMS_BASE_URL}/titaned/api/v1/mfe_context/`);
+          dynamicTheme(response);
+        } catch (error) {
+          console.error('Error fetching theme config:', error);
+        }
+      })();
+    }
+  }, [oldUI]);
+
+  useEffect(() => {
+    // Only load styles after we know the UI preference
+    if (oldUI !== null) {
+      loadStylesForNewUI(oldUI === 'true');
+    }
+  }, [oldUI]);
+
+  // Show loading screen while UI preference is being fetched
+  if (loading || menuConfig === null) {
+    return (
+      <div className="d-flex justify-content-center align-items-center flex-column vh-100">
+        <div>Loading... Please wait...</div>
+      </div>
+    );
+  }
+
+  return (
+    <AppProvider store={store}>
+      <Head />
+      <Routes>
+        <Route element={oldUI === 'false' ? (
+          <Layout />
+        ) : (
+          <div className="d-flex flex-column" style={{ minHeight: '100vh' }}>
+            <Header />
+            <button
+              type="button"
+              onClick={async () => {
+                try {
+                  const success = await setUIPreference(true);
+                  if (success) {
+                    window.location.reload();
+                  } else {
+                    console.error('Failed to switch to new UI');
+                  }
+                } catch (error) {
+                  console.error('Error switching to new UI:', error);
+                }
+              }}
+              style={{
+                position: 'absolute',
+                top: '0.4rem',
+                borderRadius: '6px',
+                right: '20rem',
+                zIndex: 9999,
+                backgroundColor: 'var(--primary)',
+                color: 'white',
+                padding: '10px',
+                textAlign: 'center',
+                fontSize: '16px',
+                fontWeight: 'bold',
+                width: 'fit-content',
+                border: 'none',
+                cursor: 'pointer',
+              }}
+            >
+              Switch to New UI
+            </button>
+            <main className="flex-grow-1" id="main">
+              <Outlet />
+            </main>
+            <FooterSlot />
+          </div>
+        )}
+        >
+          <Route
+            path="/id-verification/*"
+            element={<IdVerificationPageSlot />}
+          />
+          <Route path="/" element={<AccountSettingsPage />} />
+          <Route path="/notfound" element={<NotFoundPage />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Route>
+      </Routes>
+    </AppProvider>
+  );
+};
+
 subscribe(APP_READY, () => {
+  // Create the store only after frontend-platform initialize() has run.
+  // configureStore reads getConfig(), and the saga middleware can only be started once.
+  store = configureStore();
   rootNode.render(
     <StrictMode>
-      <AppProvider store={configureStore()}>
-        <Head />
-        <Routes>
-          <Route element={(
-            <div className="d-flex flex-column" style={{ minHeight: '100vh' }}>
-              <Header />
-              <main className="flex-grow-1" id="main">
-                <Outlet />
-              </main>
-              <FooterSlot />
-            </div>
-        )}
-          >
-            <Route
-              path="/id-verification/*"
-              element={<IdVerificationPageSlot />}
-            />
-            <Route path="/" element={<AccountSettingsPage />} />
-            <Route path="/notfound" element={<NotFoundPage />} />
-            <Route path="*" element={<NotFoundPage />} />
-          </Route>
-        </Routes>
-      </AppProvider>
+      <App />
     </StrictMode>,
   );
 });

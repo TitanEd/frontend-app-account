@@ -5,63 +5,74 @@ import classNames from 'classnames';
 import { useSelector } from 'react-redux';
 import { NavHashLink } from 'react-router-hash-link';
 import Scrollspy from 'react-scrollspy';
+import { PluginSlot } from '@openedx/frontend-plugin-framework';
 import { selectShowPreferences } from '../notification-preferences/data/selectors';
 import messages from './AccountSettingsPage.messages';
 
 const JumpNav = () => {
   const intl = useIntl();
   const stickToTop = useWindowSize().width > breakpoints.small.minWidth;
-  const showNotifications = useSelector(selectShowPreferences());
+  const showPreferences = useSelector(selectShowPreferences());
 
   return (
-    <div className={classNames('jump-nav', { 'jump-nav-sm position-sticky pt-3': stickToTop })}>
-      <Scrollspy
-        items={[
-          'basic-information',
-          'profile-information',
-          'social-media',
-          ...(showNotifications ? ['notifications'] : []),
-          'site-preferences',
-          'linked-accounts',
-          'delete-account',
-        ]}
-        className="list-unstyled"
-        currentClassName="font-weight-bold"
-        offset={-64}
-      >
-        <li>
-          <NavHashLink to="#basic-information">
-            {intl.formatMessage(messages['account.settings.section.account.information'])}
-          </NavHashLink>
-        </li>
-        <li>
-          <NavHashLink to="#profile-information">
-            {intl.formatMessage(messages['account.settings.section.profile.information'])}
-          </NavHashLink>
-        </li>
-        <li>
-          <NavHashLink to="#social-media">
-            {intl.formatMessage(messages['account.settings.section.social.media'])}
-          </NavHashLink>
-        </li>
-        {showNotifications && (
+    <PluginSlot
+      id="jump_nav_display"
+      pluginProps={{
+        intl,
+        stickToTop,
+        showPreferences,
+        messages,
+        getConfig,
+      }}
+    >
+      <div className={classNames('jump-nav px-2.25', { 'jump-nav-sm position-sticky pt-3': stickToTop })}>
+        <Scrollspy
+          items={[
+            'basic-information',
+            'profile-information',
+            'social-media',
+            ...(showPreferences ? ['notifications'] : []),
+            'site-preferences',
+            'linked-accounts',
+            'delete-account',
+          ]}
+          className="list-unstyled"
+          currentClassName="font-weight-bold"
+          offset={-64}
+        >
           <li>
-            <NavHashLink to="#notifications">
-              {intl.formatMessage(messages['notification.preferences.notifications.label'])}
+            <NavHashLink to="#basic-information">
+              {intl.formatMessage(messages['account.settings.section.account.information'])}
             </NavHashLink>
           </li>
-        )}
-        <li>
-          <NavHashLink to="#site-preferences">
-            {intl.formatMessage(messages['account.settings.section.site.preferences'])}
-          </NavHashLink>
-        </li>
-        <li>
-          <NavHashLink to="#linked-accounts">
-            {intl.formatMessage(messages['account.settings.section.linked.accounts'])}
-          </NavHashLink>
-        </li>
-        {getConfig().ENABLE_ACCOUNT_DELETION
+          <li>
+            <NavHashLink to="#profile-information">
+              {intl.formatMessage(messages['account.settings.section.profile.information'])}
+            </NavHashLink>
+          </li>
+          <li>
+            <NavHashLink to="#social-media">
+              {intl.formatMessage(messages['account.settings.section.social.media'])}
+            </NavHashLink>
+          </li>
+          {showPreferences && (
+            <li>
+              <NavHashLink to="#notifications">
+                {intl.formatMessage(messages['notification.preferences.notifications.label'])}
+              </NavHashLink>
+            </li>
+          )}
+          <li>
+            <NavHashLink to="#site-preferences">
+              {intl.formatMessage(messages['account.settings.section.site.preferences'])}
+            </NavHashLink>
+          </li>
+          <li>
+            <NavHashLink to="#linked-accounts">
+              {intl.formatMessage(messages['account.settings.section.linked.accounts'])}
+            </NavHashLink>
+          </li>
+          {getConfig().ENABLE_ACCOUNT_DELETION
           && (
           <li>
             <NavHashLink to="#delete-account">
@@ -69,8 +80,9 @@ const JumpNav = () => {
             </NavHashLink>
           </li>
           )}
-      </Scrollspy>
-    </div>
+        </Scrollspy>
+      </div>
+    </PluginSlot>
   );
 };
 
