@@ -24,32 +24,34 @@ const NotificationPreferenceApp = ({ appId }) => {
 
   return (
     !hideAppPreferences && (
-    <Collapsible.Advanced
-      open={appToggle}
-      data-testid={`${appId}-app`}
-      className={classNames({ 'mb-4.5': !mobileView && appToggle })}
-    >
-      <Collapsible.Trigger>
-        <div className="d-flex align-items-center">
-          <span className={classNames('mr-auto preference-app font-weight-bold', { 'mb-2': !mobileView })}>
-            {intl.formatMessage(messages.notificationAppTitle, { key: appId })}
-          </span>
-        </div>
-      </Collapsible.Trigger>
-      <Collapsible.Body>
-        <div className="d-flex flex-row justify-content-between w-100">
-          <NotificationTypes appId={appId} />
-          {!mobileView && (
-          <div className="d-flex">
-            {Object.values(NOTIFICATION_CHANNELS).map((channel) => (
-              <NotificationPreferenceColumn key={channel} appId={appId} channel={channel} />
-            ))}
+    <div className="notification-preference-group">
+      <Collapsible.Advanced
+        open={appToggle}
+        data-testid={`${appId}-app`}
+        className={classNames({ 'mb-4.5': !mobileView && appToggle })}
+      >
+        <Collapsible.Trigger>
+          <div className="d-flex align-items-center">
+            <span className={classNames('mr-auto preference-app font-weight-bold', { 'mb-2': !mobileView })}>
+              {intl.formatMessage(messages.notificationAppTitle, { key: appId })}
+            </span>
           </div>
-          )}
-        </div>
-        {mobileView && <hr className="border-light-400 my-4.5" />}
-      </Collapsible.Body>
-    </Collapsible.Advanced>
+        </Collapsible.Trigger>
+        <Collapsible.Body>
+          <div className="d-flex flex-row justify-content-between w-100">
+            <NotificationTypes appId={appId} />
+            {!mobileView && (
+            <div className="d-flex">
+              {Object.values(NOTIFICATION_CHANNELS).map((channel) => (
+                <NotificationPreferenceColumn key={channel} appId={appId} channel={channel} />
+              ))}
+            </div>
+            )}
+          </div>
+          {mobileView && <hr className="border-light-400 my-4.5" />}
+        </Collapsible.Body>
+      </Collapsible.Advanced>
+    </div>
     )
   );
 };
