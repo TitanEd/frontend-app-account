@@ -509,6 +509,11 @@ const messages = defineMessages({
     defaultMessage: 'Delete My Account',
     description: 'Header for the user account deletion area',
   },
+  'account.settings.jump.nav.aria.label': {
+    id: 'account.settings.jump.nav.aria.label',
+    defaultMessage: 'Account settings sections',
+    description: 'Accessible label for the account settings section jump navigation',
+  },
   'account.settings.field.social.platform.name.xTwitter': {
     id: 'account.settings.field.social.platform.name.xTwitter',
     defaultMessage: 'X (Twitter)',

@@ -29,11 +29,13 @@ const CustomEditableSelectFieldBtns = ({
         if (saveState === 'pending') { e.preventDefault(); }
       }}
       disabledStates={[]}
+      data-testid="editable-field-save"
     />
     <Button
       variant="outline-primary"
       onClick={handleCancel}
       size="sm"
+      data-testid="editable-field-cancel"
     >
       {intl.formatMessage(messages['account.settings.editable.field.action.cancel'])}
     </Button>

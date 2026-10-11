@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 
 import { useIntl } from '@edx/frontend-platform/i18n';
-import { Hyperlink } from '@openedx/paragon';
+import { Container, Hyperlink } from '@openedx/paragon';
 
 import { selectShowPreferences } from './data/selectors';
 import messages from './messages';
@@ -16,17 +16,16 @@ const NotificationSettings = () => {
 
   return (
     showPreferences && (
-      <div className="notification-preferences">
-        <h2 className="section-heading h4 mb-3">
+      <Container className="notification-preferences px-0">
+        <h2 className="notification-heading mb-3">
           {intl.formatMessage(messages.notificationHeading)}
         </h2>
-        <hr className="customHr" />
-        <p className="notification-section-description">
+        <div className="text-gray-700 font-size-14 mb-3">
           {intl.formatMessage(messages.notificationCadenceDescription, {
             dailyTime: '17:00 UTC', weeklyTime: '17:00 UTC',
           })}
-        </p>
-        <p className="notification-section-description">
+        </div>
+        <div className="mb-5 text-gray-700 font-size-14">
           {intl.formatMessage(messages.notificationPreferenceGuideBody)}
           <Hyperlink
             destination="https://edx.readthedocs.io/projects/open-edx-learner-guide/en/latest/sfd_notifications/index.html"
@@ -36,9 +35,10 @@ const NotificationSettings = () => {
           >
             {intl.formatMessage(messages.notificationPreferenceGuideLink)}
           </Hyperlink>
-        </p>
+        </div>
         <NotificationPreferences />
-      </div>
+        <div className="border border-light-700 my-6" />
+      </Container>
     )
   );
 };

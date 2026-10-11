@@ -14,7 +14,7 @@ import {
   getLanguageList,
 } from '@edx/frontend-platform/i18n';
 import {
-  Hyperlink, Icon, Alert,
+  Container, Hyperlink, Icon, Alert,
 } from '@openedx/paragon';
 import { CheckCircle, Error, WarningFilled } from '@openedx/paragon/icons';
 
@@ -551,7 +551,6 @@ class AccountSettingsPage extends React.Component {
           <h2 className="section-heading h4 mb-3">
             {this.props.intl.formatMessage(messages['account.settings.section.account.information'])}
           </h2>
-          <hr className="customHr" />
           <p>{this.props.intl.formatMessage(messages['account.settings.section.account.information.description'])}</p>
           {this.renderManagedProfileMessage()}
 
@@ -692,7 +691,6 @@ class AccountSettingsPage extends React.Component {
           <h2 className="section-heading h4 mb-3">
             {this.props.intl.formatMessage(messages['account.settings.section.profile.information'])}
           </h2>
-          <hr className="customHr" />
 
           <EditableSelectField
             name="level_of_education"
@@ -738,11 +736,10 @@ class AccountSettingsPage extends React.Component {
 
           <AdditionalProfileFieldsSlot />
         </div>
-        <div className="account-section pt-3 mb-5" id="social-media">
+        <div className="account-section pt-3 mb-6" id="social-media">
           <h2 className="section-heading h4 mb-3">
             {this.props.intl.formatMessage(messages['account.settings.section.social.media'])}
           </h2>
-          <hr className="customHr" />
           <p>
             {this.props.intl.formatMessage(
               messages['account.settings.section.social.media.description'],
@@ -775,14 +772,14 @@ class AccountSettingsPage extends React.Component {
             {...editableFieldProps}
           />
         </div>
-        <div className="account-section pt-3 mb-5" id="notifications" ref={this.navLinkRefs['#notifications']}>
+        <div className="border border-light-700" />
+        <div className="mt-6" id="notifications" ref={this.navLinkRefs['#notifications']}>
           <NotificationSettings />
         </div>
-        <div className="account-section pt-3 mb-5" id="site-preferences" ref={this.navLinkRefs['#site-preferences']}>
+        <div className="account-section mb-5" id="site-preferences" ref={this.navLinkRefs['#site-preferences']}>
           <h2 className="section-heading h4 mb-3">
             {this.props.intl.formatMessage(messages['account.settings.section.site.preferences'])}
           </h2>
-          <hr className="customHr" />
 
           <BetaLanguageBanner />
           <EditableSelectField
@@ -810,9 +807,8 @@ class AccountSettingsPage extends React.Component {
           />
         </div>
 
-        <div className="account-section linked-accounts-section pt-3 mb-5" id="linked-accounts" ref={this.navLinkRefs['#linked-accounts']}>
+        <div className="account-section pt-3 mb-5" id="linked-accounts" ref={this.navLinkRefs['#linked-accounts']}>
           <h2 className="section-heading h4 mb-3">{this.props.intl.formatMessage(messages['account.settings.section.linked.accounts'])}</h2>
-          <hr className="customHr" />
           <p>
             {this.props.intl.formatMessage(
               messages['account.settings.section.linked.accounts.description'],
@@ -859,24 +855,24 @@ class AccountSettingsPage extends React.Component {
     } = this.props;
 
     return (
-      <div className="page__account-settings container-fluid py-5">
+      <Container className="page__account-settings py-5" size="xl">
         {this.renderDuplicateTpaProviderMessage()}
-        <h1 className="mb-4 account-settings-page-heading">
+        <h1 className="mb-4">
           {this.props.intl.formatMessage(messages['account.settings.page.heading'])}
         </h1>
         <div>
           <div className="row">
-            <div className="col-md-2">
+            <div className="col-md-3">
               <JumpNav />
             </div>
-            <div className="col-md-10">
+            <div className="col-md-9">
               {loading ? this.renderLoading() : null}
               {loaded ? this.renderContent() : null}
               {loadingError ? this.renderError() : null}
             </div>
           </div>
         </div>
-      </div>
+      </Container>
     );
   }
 }
