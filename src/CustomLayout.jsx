@@ -17,6 +17,7 @@ import { AppContext } from '@edx/frontend-platform/react';
 
 import { NotFoundPage } from './account-settings';
 import CustomAccountSettingsPage from './account-settings/CustomAccountSettingsPage';
+// eslint-disable-next-line import/extensions
 import customGetUserMenuItems from './library/utils/customGetUserMenuItems';
 import getLearnerDashboardUrl from './library/utils/getLearnerDashboardUrl';
 import IdVerificationPageSlot from './plugin-slots/IdVerificationPageSlot';
@@ -27,8 +28,6 @@ import messages from './messages';
 import('titaned-frontend-library/dist/index.css');
 import('./styles/styles-overrides.scss');
 import('./styles/custom-layout.scss');
-
-
 
 // Design tokens for the custom UI are scoped to this class
 // (tels-brand-openedx paragon/custom_account.scss).

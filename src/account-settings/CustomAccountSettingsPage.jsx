@@ -28,8 +28,8 @@ import {
 } from './data/actions';
 import { accountSettingsPageSelector } from './data/selectors';
 import PageLoading from './PageLoading';
-import CustomJumpNav from './CustomJumpNav';
-import CustomDeleteAccount from './delete-account/CustomDeleteAccount';
+import CustomJumpNavContainer from './CustomJumpNav';
+import ConnectedCustomDeleteAccount from './delete-account/CustomDeleteAccount';
 import CustomEditableField from './CustomEditableField';
 import CustomEditableSelectField from './CustomEditableSelectField';
 import CustomResetPassword from './reset-password/CustomResetPassword';
@@ -824,7 +824,7 @@ class CustomAccountSettingsPage extends React.Component {
 
         {getConfig().ENABLE_ACCOUNT_DELETION && (
           <div className="account-section pt-3 mb-5" id="delete-account" ref={this.navLinkRefs['#delete-account']}>
-            <CustomDeleteAccount
+            <ConnectedCustomDeleteAccount
               isVerifiedAccount={this.props.isActive}
               hasLinkedTPA={hasLinkedTPA}
               canDeleteAccount={this.canDeleteAccount()}
@@ -870,7 +870,7 @@ class CustomAccountSettingsPage extends React.Component {
         <div>
           <div className="row">
             <div className="col-md-2">
-              <CustomJumpNav />
+              <CustomJumpNavContainer />
             </div>
             <div className="col-md-10">
               {loading ? this.renderLoading() : null}
