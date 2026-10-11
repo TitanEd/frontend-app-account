@@ -1,71 +1,230 @@
-/* eslint-disable react/forbid-prop-types */
-import React from 'react';
+// Copy of EditableSelectField.jsx for the custom UI: renders the custom display and Save / Cancel buttons.
 import PropTypes from 'prop-types';
-import { Button } from '@openedx/paragon';
-import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import classNames from 'classnames';
+import { connect } from 'react-redux';
+import { useIntl } from '@edx/frontend-platform/i18n';
+import { Button, Form } from '@openedx/paragon';
 
-const CustomEditableSelectField = ({
-  label,
-  isEditable,
-  handleEdit,
-  intl,
-  messages,
-  value,
-  isGrayedOut,
-  renderValue,
-  renderConfirmationMessage,
-  helpText,
-}) => (
-  <div className="d-flex justify-content-between align-items-center custom-editable-select-field">
-    <div>
-      <div className="d-flex">
-        <h6 aria-level="3" className="form-group-label">{label}</h6>
-      </div>
-      <p data-hj-suppress className={`form-group-value ${classNames('text-truncate', { 'grayed-out': isGrayedOut })}`}>
-        {renderValue(value)}
-      </p>
-      <p className="small text-muted mt-n2">
-        {renderConfirmationMessage() || helpText}
-      </p>
-    </div>
-    <div className="d-flex align-items-center custom-editable-select-field-button">
-      {isEditable ? (
-        <Button variant="outline-primary" size="sm" onClick={handleEdit} className="ml-3">
-          <FontAwesomeIcon className="mr-1" icon={faPencilAlt} />
-          {intl.formatMessage(messages['account.settings.editable.field.action.edit'])}
-        </Button>
-      ) : null}
-    </div>
-  </div>
-);
+import SwitchContent from './SwitchContent';
+import messages from './AccountSettingsPage.messages';
+
+import {
+  openForm,
+  closeForm,
+} from './data/actions';
+import { editableFieldSelector } from './data/selectors';
+import CertificatePreference from './certificate-preference/CertificatePreference';
+import CustomEditableSelectFieldBtns from './CustomEditableSelectFieldBtns';
+import CustomEditableSelectFieldDisplay from './CustomEditableSelectFieldDisplay';
+
+const CustomEditableSelectField = (props) => {
+  const intl = useIntl();
+  const {
+    name,
+    label,
+    emptyLabel,
+    type,
+    value,
+    userSuppliedValue,
+    options,
+    saveState,
+    error,
+    confirmationMessageDefinition,
+    confirmationValue,
+    helpText,
+    onEdit,
+    onCancel,
+    onSubmit,
+    onChange,
+    isEditing,
+    isEditable,
+    isGrayedOut,
+    ...others
+  } = props;
+  const id = `field-${name}`;
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSubmit(name, new FormData(e.target).get(name));
+  };
+
+  const handleChange = (e) => {
+    onChange(name, e.target.value);
+  };
+
+  const handleEdit = () => {
+    onEdit(name);
+  };
+
+  const handleCancel = () => {
+    onCancel(name);
+  };
+
+  const renderEmptyLabel = () => {
+    if (isEditable) {
+      return <Button variant="link" onClick={handleEdit} className="p-0">{emptyLabel}</Button>;
+    }
+    return <span className="text-muted">{emptyLabel}</span>;
+  };
+
+  const renderValue = (rawValue) => {
+    if (!rawValue) {
+      return renderEmptyLabel();
+    }
+    let finalValue = rawValue;
+
+    if (options) {
+      // Use == instead of === to prevent issues when HTML casts numbers as strings
+      // eslint-disable-next-line eqeqeq
+      const selectedOption = options.find(option => option.value == rawValue);
+      if (selectedOption) {
+        finalValue = selectedOption.label;
+      }
+    }
+
+    if (userSuppliedValue) {
+      finalValue += `: ${userSuppliedValue}`;
+    }
+
+    return finalValue;
+  };
+
+  const renderConfirmationMessage = () => {
+    if (!confirmationMessageDefinition || !confirmationValue) {
+      return null;
+    }
+    return intl.formatMessage(confirmationMessageDefinition, {
+      value: confirmationValue,
+    });
+  };
+  const selectOptions = options.map((option) => {
+    if (option.group) {
+      // If the option has a 'group' property, it represents an element with sub-options.
+      return (
+        <optgroup label={option.label} key={option.label}>
+          {option.group.map((subOption) => (
+            <option
+              value={subOption.value}
+              key={`${subOption.value}-${subOption.label}`}
+              disabled={subOption?.disabled}
+            >
+              {subOption.label}
+            </option>
+          ))}
+        </optgroup>
+      );
+    }
+    return (
+      <option value={option.value} key={`${option.value}-${option.label}`} disabled={option?.disabled}>
+        {option.label}
+      </option>
+    );
+  });
+
+  return (
+    <SwitchContent
+      expression={isEditing ? 'editing' : 'default'}
+      cases={{
+        editing: (
+          <>
+            <form onSubmit={handleSubmit}>
+              <Form.Group
+                controlId={id}
+                isInvalid={error != null}
+              >
+                <Form.Label size="sm" className="h6 d-block" htmlFor={id}>{label}</Form.Label>
+                <Form.Control
+                  data-hj-suppress
+                  name={name}
+                  id={id}
+                  type={type}
+                  as={type}
+                  value={value}
+                  onChange={handleChange}
+                  {...others}
+                >
+                  {options.length > 0 && selectOptions}
+                </Form.Control>
+                {!!helpText && <Form.Text>{helpText}</Form.Text>}
+                {error != null && <Form.Control.Feedback>{error}</Form.Control.Feedback>}
+                {others.children}
+              </Form.Group>
+              <CustomEditableSelectFieldBtns
+                saveState={saveState}
+                handleCancel={handleCancel}
+                intl={intl}
+                messages={messages}
+              />
+            </form>
+            {['name', 'verified_name'].includes(name) && <CertificatePreference fieldName={name} />}
+          </>
+        ),
+        default: (
+          <div className="form-group">
+            <CustomEditableSelectFieldDisplay
+              label={label}
+              isEditable={isEditable}
+              handleEdit={handleEdit}
+              intl={intl}
+              messages={messages}
+              value={value}
+              isGrayedOut={isGrayedOut}
+              renderValue={renderValue}
+              renderConfirmationMessage={renderConfirmationMessage}
+              helpText={helpText}
+            />
+          </div>
+        ),
+      }}
+    />
+  );
+};
 
 CustomEditableSelectField.propTypes = {
+  name: PropTypes.string.isRequired,
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.node]),
-  isEditable: PropTypes.bool,
-  handleEdit: PropTypes.func,
-  intl: PropTypes.shape({
-    formatMessage: PropTypes.func.isRequired,
-  }).isRequired,
-  messages: PropTypes.object,
+  emptyLabel: PropTypes.node,
+  type: PropTypes.string.isRequired,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  isGrayedOut: PropTypes.bool,
-  renderValue: PropTypes.func,
-  renderConfirmationMessage: PropTypes.func,
+  userSuppliedValue: PropTypes.string,
+  options: PropTypes.arrayOf(PropTypes.shape({
+    label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  })),
+  saveState: PropTypes.oneOf(['default', 'pending', 'complete', 'error']),
+  error: PropTypes.string,
+  confirmationMessageDefinition: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    defaultMessage: PropTypes.string.isRequired,
+    description: PropTypes.string,
+  }),
+  confirmationValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   helpText: PropTypes.node,
+  onEdit: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
+  isEditing: PropTypes.bool,
+  isEditable: PropTypes.bool,
+  isGrayedOut: PropTypes.bool,
 };
 
 CustomEditableSelectField.defaultProps = {
-  label: undefined,
-  isEditable: true,
-  handleEdit: () => {},
-  messages: {},
   value: undefined,
-  isGrayedOut: false,
-  renderValue: () => null,
-  renderConfirmationMessage: () => null,
+  options: [],
+  saveState: undefined,
+  label: undefined,
+  emptyLabel: undefined,
+  error: undefined,
+  confirmationMessageDefinition: undefined,
+  confirmationValue: undefined,
   helpText: undefined,
+  isEditing: false,
+  isEditable: true,
+  isGrayedOut: false,
+  userSuppliedValue: undefined,
 };
 
-export default CustomEditableSelectField;
+export default connect(editableFieldSelector, {
+  onEdit: openForm,
+  onCancel: closeForm,
+})(CustomEditableSelectField);

@@ -1,0 +1,74 @@
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { useIntl, FormattedMessage } from '@edx/frontend-platform/i18n';
+import { StatefulButton } from '@openedx/paragon';
+
+import { resetPassword } from './data/actions';
+import messages from './messages';
+import CustomConfirmationAlert from './CustomConfirmationAlert';
+import RequestInProgressAlert from './RequestInProgressAlert';
+
+const CustomResetPassword = (props) => {
+  const { email, status } = props;
+  const intl = useIntl();
+
+  return (
+    <div className="form-group reset-password-form-group">
+      <div className="reset-password-fields">
+        <h6 aria-level="3">
+          <FormattedMessage
+            id="account.settings.editable.field.password.reset.label"
+            defaultMessage="Password"
+            description="The password label in account settings"
+          />
+        </h6>
+        <p>
+          <StatefulButton
+            variant="outline-primary"
+            size="sm"
+            state={status}
+            onClick={(e) => {
+              // Swallow clicks if the state is pending.
+              // We do this instead of disabling the button to prevent
+              // it from losing focus (disabled elements cannot have focus).
+              // Disabling it would causes upstream issues in focus management.
+              // Swallowing the onSubmit event on the form would be better, but
+              // we would have to add that logic for every field given our
+              // current structure of the application.
+              if (status === 'pending') {
+                e.preventDefault();
+              }
+              props.resetPassword(email);
+            }}
+            disabledStates={[]}
+            labels={{
+              default: intl.formatMessage(messages['account.settings.editable.field.password.reset.button']),
+            }}
+          />
+        </p>
+      </div>
+      {status === 'complete' ? <CustomConfirmationAlert email={email} /> : null}
+      {status === 'forbidden' ? <RequestInProgressAlert /> : null}
+    </div>
+  );
+};
+
+CustomResetPassword.propTypes = {
+  email: PropTypes.string,
+  resetPassword: PropTypes.func.isRequired,
+  status: PropTypes.string,
+};
+
+CustomResetPassword.defaultProps = {
+  email: '',
+  status: null,
+};
+
+const mapStateToProps = state => state.accountSettings.resetPassword;
+
+export default connect(
+  mapStateToProps,
+  {
+    resetPassword,
+  },
+)(CustomResetPassword);

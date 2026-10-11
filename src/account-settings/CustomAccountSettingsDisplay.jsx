@@ -32,8 +32,15 @@ const CustomAccountSettingsDisplay = ({
     </div>
     <div className="d-flex align-items-center custom-account-settings-display-button">
       {isEditable ? (
-        <Button variant="outline-primary" size="sm" onClick={handleEdit} className="ml-3">
-          <FontAwesomeIcon className="mr-1" icon={faPencilAlt} />
+        <Button
+          variant="outline-primary"
+          size="sm"
+          onClick={handleEdit}
+          className="ml-3"
+          data-testid="editable-field-edit"
+          data-clicked="edit"
+        >
+          <FontAwesomeIcon className="mr-1" icon={faPencilAlt} aria-hidden="true" />
           {intl.formatMessage(messages['account.settings.editable.field.action.edit'])}
         </Button>
       ) : null}
