@@ -19,6 +19,7 @@ import {
 import { CheckCircle, Error, WarningFilled } from '@openedx/paragon/icons';
 
 import messages from './AccountSettingsPage.messages';
+import customMessages from './CustomAccountSettingsPage.messages';
 import {
   fetchSettings,
   saveMultipleSettings,
@@ -480,6 +481,7 @@ class CustomAccountSettingsPage extends React.Component {
         emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.secondary.email.empty'])}
         value={this.props.formValues.secondary_email}
         confirmationMessageDefinition={messages['account.settings.field.secondary.email.confirmation']}
+        placeholder={this.props.intl.formatMessage(customMessages['account.settings.placeholder.email'])}
         {...editableFieldProps}
       />
     );
@@ -567,6 +569,7 @@ class CustomAccountSettingsPage extends React.Component {
               { siteName: getConfig().SITE_NAME },
             )}
             isEditable={false}
+            placeholder={this.props.intl.formatMessage(customMessages['account.settings.placeholder.username'])}
             {...editableFieldProps}
           />
           <CustomEditableField
@@ -597,6 +600,7 @@ class CustomAccountSettingsPage extends React.Component {
             isGrayedOut={
               verifiedName && !this.isEditable('verifiedName')
             }
+            placeholder={this.props.intl.formatMessage(customMessages['account.settings.placeholder.name'])}
             onChange={this.handleEditableFieldChange}
             onSubmit={this.handleSubmitProfileName}
           />
@@ -619,6 +623,7 @@ class CustomAccountSettingsPage extends React.Component {
               helpText={this.renderVerifiedNameHelpText(verifiedName.status, verifiedName.proctored_exam_attempt_id)}
               isEditable={this.isEditable('verifiedName')}
               isGrayedOut={!this.isEditable('verifiedName')}
+              placeholder={this.props.intl.formatMessage(customMessages['account.settings.placeholder.verified.name'])}
               onChange={this.handleEditableFieldChange}
               onSubmit={this.handleSubmitVerifiedName}
             />
@@ -639,6 +644,7 @@ class CustomAccountSettingsPage extends React.Component {
               { siteName: getConfig().SITE_NAME },
             )}
             isEditable={this.isEditable('email')}
+            placeholder={this.props.intl.formatMessage(customMessages['account.settings.placeholder.email'])}
             {...editableFieldProps}
           />
           {this.renderSecondaryEmailField(editableFieldProps)}
@@ -756,6 +762,7 @@ class CustomAccountSettingsPage extends React.Component {
             value={this.props.formValues.social_link_linkedin}
             label={this.props.intl.formatMessage(messages['account.settings.field.social.platform.name.linkedin'])}
             emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.social.platform.name.linkedin.empty'])}
+            placeholder={this.props.intl.formatMessage(customMessages['account.settings.placeholder.social.link'])}
             {...editableFieldProps}
           />
           <CustomEditableField
@@ -764,6 +771,7 @@ class CustomAccountSettingsPage extends React.Component {
             value={this.props.formValues.social_link_facebook}
             label={this.props.intl.formatMessage(messages['account.settings.field.social.platform.name.facebook'])}
             emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.social.platform.name.facebook.empty'])}
+            placeholder={this.props.intl.formatMessage(customMessages['account.settings.placeholder.social.link'])}
             {...editableFieldProps}
           />
           <CustomEditableField
@@ -772,6 +780,7 @@ class CustomAccountSettingsPage extends React.Component {
             value={this.props.formValues.social_link_x}
             label={this.props.intl.formatMessage(messages['account.settings.field.social.platform.name.xTwitter'])}
             emptyLabel={this.props.intl.formatMessage(messages['account.settings.field.social.platform.name.xTwitter.empty'])}
+            placeholder={this.props.intl.formatMessage(customMessages['account.settings.placeholder.social.link'])}
             {...editableFieldProps}
           />
         </div>
