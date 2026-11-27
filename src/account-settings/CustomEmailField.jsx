@@ -29,6 +29,7 @@ const CustomEmailField = (props) => {
     confirmationMessageDefinition,
     confirmationValue,
     helpText,
+    placeholder,
     onEdit,
     onCancel,
     onSubmit,
@@ -118,6 +119,7 @@ const CustomEmailField = (props) => {
                 type="email"
                 value={value}
                 onChange={handleChange}
+                placeholder={placeholder}
               />
               {!!helpText && <Form.Text>{helpText}</Form.Text>}
               {error != null && <Form.Control.Feedback hasIcon={false}>{error}</Form.Control.Feedback>}
@@ -163,6 +165,7 @@ CustomEmailField.propTypes = {
   }),
   confirmationValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   helpText: PropTypes.node,
+  placeholder: PropTypes.string,
   onEdit: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
@@ -180,6 +183,7 @@ CustomEmailField.defaultProps = {
   confirmationMessageDefinition: undefined,
   confirmationValue: undefined,
   helpText: undefined,
+  placeholder: undefined,
   isEditing: false,
   isEditable: true,
 };
